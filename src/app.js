@@ -3,7 +3,10 @@ require('dotenv').config()
 /*
  * Required Env Variables
  */
-const { SLACK_SIGNING_SECRET, SLACK_TOKEN } = process.env
+const {
+  SLACK_SIGNING_SECRET: slackSigningSecret,
+  SLACK_TOKEN: slackToken
+} = process.env
 
 /*
  * Express
@@ -17,7 +20,7 @@ const port = process.env.PORT || 3000
  * @see https://github.com/slackapi/node-slack-sdk#posting-a-message-with-web-api
  */
 const { WebClient } = require('@slack/web-api')
-const web = new WebClient(SLACK_TOKEN)
+const web = new WebClient(slackToken)
 
 /*
  * Listening for an event with the Events API
@@ -25,7 +28,7 @@ const web = new WebClient(SLACK_TOKEN)
  * @see https://github.com/slackapi/node-slack-sdk#listening-for-an-event-with-the-events-api
  */
 const { createEventAdapter } = require('@slack/events-api')
-const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET)
+const slackEvents = createEventAdapter(slackSigningSecret)
 
 /*
  * Responding to interactive messages
@@ -33,13 +36,13 @@ const slackEvents = createEventAdapter(SLACK_SIGNING_SECRET)
  * @see https://github.com/slackapi/node-slack-sdk#responding-to-interactive-messages
  */
 const { createMessageAdapter } = require('@slack/interactive-messages')
-const slackInteractions = createMessageAdapter(SLACK_SIGNING_SECRET)
+const slackInteractions = createMessageAdapter(slackSigningSecret)
 
 /*
  * App modules
  */
-const slackCommands = require('./commands')
-const messageEvents = require('./messageEvents.js')
+const slackCommands = require('./modules/commands')
+const messageEvents = require('./modules/messageEvents.js')
 
 /*
  * App methods
