@@ -1,0 +1,33 @@
+{
+  "name": "ed-bot",
+  "version": "0.0.1a",
+  "description": "A bot to automate parts of the developer education workflow",
+  "main": "src/app.js",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "10.x"
+  },
+  "author": "Luke Oliff <luke@lukeoliff.com> (https://lukeoliff.com)",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "@slack/events-api": "^2.3.2",
+    "@slack/web-api": "^5.8.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "nodemon": "^2.0.3"
+  },
+  "keywords": []
+}
