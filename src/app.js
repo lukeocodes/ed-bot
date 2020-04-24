@@ -45,7 +45,11 @@ const slackInteractions = createMessageAdapter(slackSigningSecret)
  * App modules
  */
 const slackCommands = require('./modules/commands')
-const messageEvents = require('./modules/messageEvents.js')
+
+/*
+ * App routes
+ */
+const messageRouting = require('./routes/messages')
 
 /*
  * App methods
@@ -55,24 +59,22 @@ const errorHandler = (err) => {
 }
 
 /*
- * Slack App functionality
+ * Slack App Events functionality
  */
-slackEvents.on('message', (event) => {
-  // `message` for `type: message` Slack events contain `text`, we check just incase
-  if (Object.prototype.hasOwnProperty.call(event, 'text')) {
-    const messageEvent = messageEvents(event)
-    if (typeof messageEvent === 'function') {
-      messageEvent(event)
-        .then((message) => {
-          (async () => {
-            await web.chat[message.type](message.options)
-          })()
-        })
-    }
-  }
-})
+slackEvents.on('message', messageRouting)
 
 slackEvents.on('error', errorHandler)
+
+/*
+ * Slack App Interactions functionality
+ */
+slackInteractions.action({ type: 'button' }, (payload, respond) => {
+  console.log('payload', payload)
+
+  respond({ text: 'Thanks! I\'ve attached some more info to your request!' })
+
+  // return { text: 'Processing...' }
+})
 
 /*
  * Routing
