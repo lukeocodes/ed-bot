@@ -60,7 +60,15 @@ const errorHandler = (err) => {
 slackEvents.on('message', (event) => {
   // `message` for `type: message` Slack events contain `text`, we check just incase
   if (Object.prototype.hasOwnProperty.call(event, 'text')) {
-    messageEvents(web, event)
+    const messageEvent = messageEvents(event)
+    if (typeof messageEvent === 'function') {
+      messageEvent(event)
+        .then((message) => {
+          (async () => {
+            await web.chat[message.type](message.options)
+          })()
+        })
+    }
   }
 })
 
@@ -78,4 +86,4 @@ app.use('/slack/events', slackEvents.expressMiddleware())
 /*
  * Start Express Server
  */
-app.listen(port, () => console.log(`Server listening at ${url}`))
+app.listen(port)
