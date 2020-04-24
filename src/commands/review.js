@@ -1,3 +1,3 @@
-export default (res) => {
+module.exports = (res) => {
   res.json({ msg: 'do a thing' })
 }

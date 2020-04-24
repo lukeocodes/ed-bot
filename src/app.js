@@ -10,9 +10,12 @@ const {
 
 /*
  * Express
+ *
+ * @see https://expressjs.com/en/starter/hello-world.html
  */
 const app = require('express')()
 const port = process.env.PORT || 3000
+const url = `http://localhost:${port}`
 
 /*
  * Posting a message with Web API
@@ -51,6 +54,9 @@ const errorHandler = (err) => {
   console.error(err)
 }
 
+/*
+ * Slack App functionality
+ */
 slackEvents.on('message', (event) => {
   // `message` for `type: message` Slack events contain `text`, we check just incase
   if (Object.prototype.hasOwnProperty.call(event, 'text')) {
@@ -60,8 +66,16 @@ slackEvents.on('message', (event) => {
 
 slackEvents.on('error', errorHandler)
 
+/*
+ * Routing
+ */
 app.use('/slack/commands', slackCommands)
+// add slack interactions as middleware
 app.use('/slack/actions', slackInteractions.expressMiddleware())
+// add slack events as middleware
 app.use('/slack/events', slackEvents.expressMiddleware())
 
-app.listen(port, () => console.log(`server listening at http://localhost:${port}`))
+/*
+ * Start Express Server
+ */
+app.listen(port, () => console.log(`Server listening at ${url}`))

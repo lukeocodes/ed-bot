@@ -1,13 +1,13 @@
 const matchMap = {
   ticketInfo: {
-    regex: /(deved-[\d]+)/gi,
+    regex: /(deved-[0-9]{1,6})/gi,
     response: (match) => {
       return `info on ${match}`
     }
   }
 }
 
-export default (web, event) => {
+module.exports = (web, event) => {
   matchMap.forEach(map => {
     const matches = event.text.match(map.regex)
 

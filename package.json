@@ -5,8 +5,8 @@
   "main": "src/app.js",
   "private": true,
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "dev": "node src/devApp.js",
+    "start": "node src/app.js"
   },
   "engines": {
     "node": "10.x"
@@ -15,6 +15,7 @@
   "license": "AGPL-3.0",
   "dependencies": {
     "@slack/events-api": "^2.3.2",
+    "@slack/interactive-messages": "^1.5.0",
     "@slack/web-api": "^5.8.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1"
@@ -27,6 +28,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "ngrok": "^3.2.7",
     "nodemon": "^2.0.3"
   },
   "keywords": []
