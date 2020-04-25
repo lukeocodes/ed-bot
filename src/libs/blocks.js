@@ -28,5 +28,14 @@ module.exports = {
       },
       value: value
     }
+  },
+  markdown: (text) => {
+    return {
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: text
+      }
+    }
   }
 }
