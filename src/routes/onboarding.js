@@ -9,7 +9,7 @@ const {
 /**
  * App Message Modules
  */
-const messages = require('../modules/messages')
+const onboarding = require('../modules/onboarding')
 
 /**
  * Posting a message with Web API
@@ -19,28 +19,15 @@ const messages = require('../modules/messages')
 const { WebClient } = require('@slack/web-api')
 const web = new WebClient(slackToken)
 
-const matchMap = [
-  {
-    regex: /(deved-[0-9]{1,6})/gi,
-    response: messages.deved
-  }
-]
-
-const messageMapper = (event) => {
-  const match = matchMap.find((properties) => {
-    return event.text.match(properties.regex)
-  })
-
-  if (match) {
-    return match
-  }
+const channelMap = {
+  CSXLVGPJL: onboarding.deved
 }
 
 module.exports = (event) => {
-  if (event.text) {
-    const messageEvent = messageMapper(event)
-    if (messageEvent && typeof messageEvent.response === 'function') {
-      messageEvent.response(messageEvent.regex, event)
+  if (event.channel) {
+    const onboarding = channelMap[event.channel]
+    if (onboarding && typeof onboarding === 'function') {
+      onboarding(event)
         .then((message) => {
           if (message) {
           // this is the "handler" and we should create a handlers module

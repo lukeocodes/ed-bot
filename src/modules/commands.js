@@ -1,5 +1,5 @@
-const router = require('express').Router()
-
-router.post('/review', require('../commands/review'))
-
-module.exports = router
+module.exports = {
+  review: (res) => {
+    res.json({ msg: 'do a thing' })
+  }
+}
