@@ -37,5 +37,17 @@ module.exports = {
         text: text
       }
     }
+  },
+  image: (url, alt, title) => {
+    return {
+      type: 'image',
+      title: {
+        type: 'plain_text',
+        text: title,
+        emoji: true
+      },
+      image_url: url,
+      alt_text: alt
+    }
   }
 }
