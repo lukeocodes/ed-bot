@@ -49,6 +49,7 @@ const errorHandler = (err) => {
  */
 slackEvents.on('member_joined_channel', onboardingRouting)
 slackEvents.on('message', messageRouting)
+slackEvents.on('app_home_opened', require('./modules/home'))
 slackEvents.on('error', errorHandler)
 
 /**
