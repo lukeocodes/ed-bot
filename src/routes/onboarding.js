@@ -19,23 +19,36 @@ const onboarding = require('../modules/onboarding')
 const { WebClient } = require('@slack/web-api')
 const web = new WebClient(slackToken)
 
+/**
+ * Channels that have custom onboarding messages to append
+ */
 const channelMap = {
   CSXLVGPJL: onboarding.deved
 }
 
+/**
+ * Channels that can NEVER have onboarding messages,
+ * even if invited to those channels for other reasons
+ */
+const excludeMap = [
+  'CSVFB25N3',
+  'CSVFB2BAB'
+]
+
 module.exports = (event) => {
   if (event.channel) {
-    const onboarding = channelMap[event.channel]
-    if (onboarding && typeof onboarding === 'function') {
-      onboarding(event)
-        .then((message) => {
-          if (message) {
-          // this is the "handler" and we should create a handlers module
-            (async () => {
-              await web.chat[message.type](message.options)
-            })()
-          }
-        })
+    if (!excludeMap.includes(event.channel)) {
+      const onboarder = channelMap[event.channel] || onboarding.default
+      if (onboarder && typeof onboarder === 'function') {
+        onboarder(event)
+          .then((message) => {
+            if (message) {
+            // this is the "handler" and we should create a handlers module
+              web.chat[message.type](message.options)
+                .catch(console.error)
+            }
+          })
+      }
     }
   }
 }
